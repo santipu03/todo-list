@@ -100,6 +100,14 @@ const deleteTaskFromStorage = (taskName) => {
     setLocalStorage(todoList);
 }
 
+const deleteProjectFromStorage = (projectName) => {
+    let todoList = getLocalStorage();
+    todoList.deleteProject(projectName);
+    setLocalStorage(todoList);
+    console.log(projectName)
+    console.log(todoList);
+}
+
 
 const getFormData = (id) => {
     const formData = new FormData(document.getElementById(id));
@@ -116,4 +124,4 @@ const formValidation = (title) => (title.length < 2) ? false : true;
 
 
 
-export {createDefaultContent,displayContentInStorage,displayTasksInStorage,displayTasksOfProjects,displayPriorityTasks,createTask,createProject,getFormData,formValidation,getTaskByName,deleteTaskFromStorage} 
+export {createDefaultContent,displayContentInStorage,displayTasksInStorage,displayTasksOfProjects,displayPriorityTasks,createTask,createProject,getFormData,formValidation,getTaskByName,deleteTaskFromStorage,deleteProjectFromStorage} 

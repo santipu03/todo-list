@@ -1,6 +1,6 @@
-import { openModal, renderHomeTab,renderPriorityTab,closeModal,clearErrorMsg,clearForm,renderEditTaskModal,renderProjectTasks,renderProject,renderTask,removeTaskFromScreen,renderErrorMsg } from "./Render";
+import { openModal, renderHomeTab,renderPriorityTab,closeModal,clearErrorMsg,clearForm,renderEditTaskModal,renderProjectTasks,renderProject,renderTask,removeTaskFromScreen,renderErrorMsg,removeProjectFromScreen } from "./Render";
 
-import { createProject, getFormData,formValidation, deleteTaskFromStorage,createTask,getTaskByName } from "../logic";
+import { createProject, getFormData,formValidation, deleteTaskFromStorage,createTask,deleteProjectFromStorage } from "../logic";
 
 
 const setDefaultEventListeners = () => {
@@ -81,9 +81,10 @@ const setEditTaskModalListeners = () => {
 
         const taskTitle = document.getElementById("edit-task-input-title").textContent;
         let arrayTask = getFormData("taskInfo-form");
-        let task = createTask(taskTitle,arrayTask[1],arrayTask[2],arrayTask[4],arrayTask[3]);
         removeTaskFromScreen(taskTitle);
         deleteTaskFromStorage(taskTitle);
+
+        let task = createTask(taskTitle,arrayTask[1],arrayTask[2],arrayTask[4],arrayTask[3]);      
         renderTask(task);
         closeModal(".taskInfo-modal-overlay");
         clearForm("taskInfo-form");
@@ -153,9 +154,23 @@ const setAddTaskBtnEventListener = () => document.querySelector(".add-task").add
     openModal(".addTask-modal-overlay");
 });
 
-const setProjectTabListener = (id) => {
-    document.getElementById(id).addEventListener("click", (e) => {
+const setProjectTabListeners = (id) => {
+    let projectTab = document.getElementById(id);
+    projectTab.children[1].addEventListener("click", (e) => {
         renderProjectTasks(e);
+    });
+    projectTab.addEventListener("mouseover", (e) => {
+        projectTab.children[2].classList.remove("hidden");
+    })
+    projectTab.addEventListener("mouseout", (e) => {
+        projectTab.children[2].classList.add("hidden")
+    });
+    projectTab.children[2].addEventListener("click", (e) => {
+        const projectName = id.split("-").join(" ");
+        removeProjectFromScreen(id);
+        deleteProjectFromStorage(projectName);
+        renderHomeTab();
+
     })
 }
 
@@ -167,4 +182,4 @@ const setEditTaskListener = (id) => {
 }
 
 
-export {setDefaultEventListeners,setAddTaskBtnEventListener,setProjectTabListener,setEditTaskListener}
+export {setDefaultEventListeners,setAddTaskBtnEventListener,setProjectTabListeners,setEditTaskListener}

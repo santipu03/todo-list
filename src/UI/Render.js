@@ -1,5 +1,5 @@
 import { displayPriorityTasks, displayTasksInStorage, displayTasksOfProjects, getTaskByName } from "../logic";
-import { setProjectTabListener, setAddTaskBtnEventListener,setEditTaskListener } from "./EventListeners";
+import { setProjectTabListeners, setAddTaskBtnEventListener,setEditTaskListener } from "./EventListeners";
 
 let mainTitle = document.querySelector(".main-title");
 const taskContainer = document.querySelector(".task-container");
@@ -35,12 +35,14 @@ const renderProject = (project) => {
     let id = project.getName().split(" ").join("-");
 
     tabProject.classList.add("tab-project");
+    tabProject.setAttribute("id",id)
     tabProject.innerHTML = 
     `<i class="fa-solid fa-circle"></i>
-    <div id="${id}">${project.getName()}</div>`;
+    <div>${project.getName()}</div>
+    <i class="fa-solid fa-xmark hidden"></i>`;
     projectsContainer.appendChild(tabProject);
 
-    setProjectTabListener(id);
+    setProjectTabListeners(id);
 }
 
 
@@ -51,9 +53,10 @@ const renderHomeTab = () => {
 }
 
 const renderProjectTasks = (e) => {
-    mainTitle.textContent = e.target.textContent;
+    let projectTitle = e.target.textContent;
+    mainTitle.textContent = projectTitle
     clearTaskContainer();
-    displayTasksOfProjects(e.target.textContent);
+    displayTasksOfProjects(projectTitle);
 }
 
 const renderPriorityTab = () => {
@@ -96,8 +99,11 @@ const clearTaskContainer = () => {
 
 const removeTaskFromScreen = (name) => {
     let id = name.split(" ").join("/");
-    document.getElementById(id).remove()
-}
+    document.getElementById(id).remove();
+};
+
+const removeProjectFromScreen = (id) => document.getElementById(id).remove();
+
 
 const moveAddButton = () => {
     const addTaskBtn = document.querySelector(".add-task");
@@ -140,4 +146,4 @@ const updateModalSelectors = (value) => {
 }
 
 
-export {renderTask,renderProject,updateModalSelectors,renderHomeTab,renderPriorityTab,closeModal,openModal,clearErrorMsg,renderEditTaskModal,renderErrorMsg,clearForm,renderProjectTasks,removeTaskFromScreen}
+export {renderTask,renderProject,updateModalSelectors,renderHomeTab,renderPriorityTab,closeModal,openModal,clearErrorMsg,renderEditTaskModal,renderErrorMsg,clearForm,renderProjectTasks,removeTaskFromScreen,removeProjectFromScreen}
