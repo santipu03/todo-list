@@ -27,7 +27,7 @@ body {
     box-sizing: border-box;
     display: grid;
     grid-template-rows: 80px 1fr 40px;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 3.5fr;
 }
 
 /* Header */
@@ -63,10 +63,10 @@ aside {
 .tab:not(.aside-projects) {
     display: flex;
     gap: 15px;
-    user-select: none;
+    user-select: none; 
     cursor: pointer;
 }
-.tab:hover:not(.aside-projects),.tab-project > div:hover {
+.tab:hover:not(.aside-projects),.tab-project:hover {
     color: #999;
 }
 .aside-projects {
@@ -84,13 +84,23 @@ aside {
 }
 
 .tab-project {
+    position: relative;
     user-select: none;
     cursor: pointer;
     font-size: 1rem;
     font-weight: normal;
     margin-left: 30px;
     display: flex;
+    align-items: center;
     gap: 10px;
+}
+.tab-project .fa-xmark {
+    position: absolute;
+    right: 22px;
+}
+.hidden {
+    z-index: -10;
+    visibility: hidden;
 }
 .add-project-btn {
     position: absolute;
@@ -239,7 +249,7 @@ option {
     align-items: center;
     gap: 10px;
 }
-.fa-xmark {
+.fa-xmark:not(.tab-project .fa-xmark) {
     position: absolute;
     top: 20px;
     right: 20px;
