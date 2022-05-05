@@ -41,13 +41,13 @@ const setAddTaskModalListeners = () => {
     submitTaskBtn.addEventListener('click', (e) => {
         e.preventDefault();
         let task = getFormData('addTask-form');
-        if (formValidation(task[0])) {
+        if (formValidation('task',task[0])) {
             renderTask(createTask(task[0],task[1],task[2],task[4],task[3]));
             clearForm('addTask-form');
             closeModal('.addTask-modal-overlay');
             clearErrorMsg('.addTask-error-msg'); 
         } else {
-            renderErrorMsg('.addTask-error-msg','*Complete the title field');
+            renderErrorMsg('.addTask-error-msg','*Complete the title field with an original name');
         }
     })
 };
@@ -133,18 +133,14 @@ const setProjectModalListeners = () => {
         e.preventDefault();
         let projectName = document.getElementById('project-name').value;
 
-        if (formValidation(projectName)){
+        if (formValidation('project',projectName)){
             let project = createProject(projectName);
-            if (project){
-                renderProject(project);
-                closeModal('.addProject-modal-overlay');
-                clearForm('addProject-form');
-                clearErrorMsg('.project-error-msg');
-            } else {
-                displayErrorMsg('.project-error-msg','*This project has already been used');
-            }
+            renderProject(project);
+            closeModal('.addProject-modal-overlay');
+            clearForm('addProject-form');
+            clearErrorMsg('.project-error-msg');
         } else {
-            renderErrorMsg('.project-error-msg','*Complete the field with two or more words');
+            renderErrorMsg('.project-error-msg','*Complete the field with an original title');
         }
     })
 };

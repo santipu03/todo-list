@@ -1,4 +1,5 @@
 import { compareAsc } from "date-fns";
+import { getLocalStorage } from "./Storage";
 
 
 export default class Project {
@@ -17,7 +18,12 @@ export default class Project {
         this.tasks = tasks
     }
     addTask(newTask){
+        let taskList = [];
+        getLocalStorage().getProjects().forEach(project => project.getTasks().forEach(task => taskList.push(task)));
+
         if (this.tasks.find(task => task.getName() == newTask.name)) {
+            return 
+        } else if (taskList.find(task => task.getName() === newTask.name)){
             return 
         }
         this.tasks.push(newTask);

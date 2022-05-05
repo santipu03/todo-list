@@ -10,10 +10,10 @@ const projectsContainer = document.querySelector('.projects-container');
 
 const renderTask = (task) => {
     let editId = task.name.split(' ').join('-') + '-';
-    let taskId = task.name.split(' ').join('/')
+    let taskId = task.name.split(' ').join('/');
     let priorityIcon;
     (task.priority === 'on') ? priorityIcon = 'fa-solid fa-star' : priorityIcon = 'fa-regular fa-star';
-    let date = formatDate(task.getDueDate());
+    let date = (task.getDueDate()) ? formatDate(task.getDueDate()) : task.getDueDate();
     
     let mainTask = document.createElement('div');
     mainTask.classList.add('main-task');

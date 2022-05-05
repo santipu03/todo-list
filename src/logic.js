@@ -143,7 +143,26 @@ const getFormData = (id) => {
     return [title,description,date,project,priority];
 }
 
-const formValidation = (title) => (title.length < 2) ? false : true;
+const formValidation = (type,title) => {
+    let tasks = [];
+    let projects = [];
+    getLocalStorage().getProjects().forEach(project => project.getTasks().forEach(task => tasks.push(task)));
+    getLocalStorage().getProjects().forEach(project => projects.push(project));
+
+    if (title.length < 1) {
+        return false
+    } else if (type === 'task'){
+        if (tasks.find(task => task.getName() === title)){
+            return false
+        }
+    } else if (type === 'project') {
+        if (projects.find(project => project.getName() === title)){
+            return false
+        }
+    }
+    return true
+    
+}
 
 const formatDate = (date) => {
     if (isToday(new Date(date))){

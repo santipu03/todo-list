@@ -4,9 +4,11 @@ import {createDefaultContent, displayContentInStorage} from './logic';
 
 
 window.addEventListener('DOMContentLoaded', () => {
-    localStorage.clear();
+    //localStorage.clear()
     createDefaultContent();
     displayContentInStorage();
     setDefaultEventListeners();
 })
 
+
+// Border green when the task is done
