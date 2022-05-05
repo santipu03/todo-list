@@ -5,7 +5,7 @@ export default class Task {
         this.name = name
         this.description = description
         this.dueDate = dueDate
-        this.priority = (priority === "on") ? "on" : "off";
+        this.priority = (priority === 'on') ? 'on' : 'off';
         this.project = project
     }
 
@@ -28,7 +28,7 @@ export default class Task {
         return this.dueDate;
     }
     setPriority(priority){
-        this.priority = this.priority = (priority === "on") ? "on" : "off";
+        this.priority = this.priority = (priority === 'on') ? 'on' : 'off';
     }
     getPriority(){
         return this.priority

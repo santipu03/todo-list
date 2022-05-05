@@ -1,15 +1,15 @@
-import Project from "./Project";
-import Task from "./Task";
-import TodoList from "./TodoList";
+import Project from './Project';
+import Task from './Task';
+import TodoList from './TodoList';
 
 
 const setLocalStorage = (todoList) => {
-    localStorage.setItem("todoList",JSON.stringify(todoList));
+    localStorage.setItem('todoList',JSON.stringify(todoList));
 }
 
 const getLocalStorage = () => {
     // First, we get the todoList from storage and assign the methods
-    let todoList = Object.assign(new TodoList(),JSON.parse(localStorage.getItem("todoList")));
+    let todoList = Object.assign(new TodoList(),JSON.parse(localStorage.getItem('todoList')));
 
     // Then, get the projects, assign the methods with map() and set projects with methods in the array
     todoList.setProjects(todoList.getProjects().map(project => Object.assign(new Project(),project)));

@@ -1,3 +1,5 @@
+import { compareAsc } from "date-fns";
+
 
 export default class Project {
     constructor (name){
@@ -28,5 +30,10 @@ export default class Project {
     }
     removeTask(taskName) {
         this.tasks = this.tasks.filter(task => task.getName() !== taskName)
+    }
+    sortTasksByDate () {
+        this.tasks.sort((a,b) => {
+            return compareAsc(new Date(a.getDueDate()),new Date(b.getDueDate()));
+        })
     }
 }

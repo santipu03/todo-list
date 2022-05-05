@@ -1,8 +1,8 @@
-import Task from "./Task";
-import Project from "./Project";
-import { renderTask,renderProject,updateModalSelectors } from "./UI/Render";
-import { getLocalStorage, setProjectInStorage, setTaskInStorage, setLocalStorage} from "./Storage";
-import { renderErrorMsg,clearForm } from "./UI/Render";
+import Task from './Task';
+import Project from './Project';
+import { renderTask,renderProject,updateModalSelectors } from './UI/Render';
+import { getLocalStorage, setProjectInStorage, setTaskInStorage, setLocalStorage} from './Storage';
+import {isToday, isThisWeek, isTomorrow, format, isPast, isYesterday, compareAsc} from 'date-fns';
 
 
 
@@ -24,18 +24,16 @@ const createProject = (name) => {
 
 const createDefaultContent = () => {
 
-    createProject("No Project");
-    createProject("DApp");
-    createProject("Clean House");
+    createProject('No Project');
+    createProject('DApp');
+    createProject('Clean House');
 
-    createTask("Do the washing up","Use the appropiate dishwasher","2022-04-29","off","Clean House")
-    createTask("Debug the smart contract","","2022-05-01","on","DApp");
-    createTask("Vacuuming the basement","","2022-04-30","off","Clean House");
-    createTask("Shitt","","2022-07-03","on","Clean House")
-
+    createTask('Do the washing up','Use the appropiate dishwasher','2022-04-29','off','Clean House');
+    createTask('Debug the smart contract','','2022-05-01','on','DApp');
+    createTask('Vacuuming the basement','','2022-04-30','off','Clean House');
 }
 
-const removeDefaultProjectFromScreen = () => document.querySelector(".projects-container").firstElementChild.remove();
+const removeDefaultProjectFromScreen = () => document.querySelector('.projects-container').firstElementChild.remove();
 
 const displayContentInStorage = () => {
     displayProjectsInStorage();
@@ -53,24 +51,52 @@ const displayProjectsInStorage = () => {
 }
 
 const displayTasksInStorage = () => {
-    let todoList = getLocalStorage();
-    todoList.getProjects().forEach(project => project.getTasks().forEach(task => renderTask(task)));
+    let tasks = [];
+    getLocalStorage().getProjects().forEach(project => project.getTasks().forEach(task => {
+        tasks.push(task);
+    }));
+    sortTasksByDate(tasks);
+    tasks.forEach(task => renderTask(task))
 }
 
 const displayTasksOfProjects = (projectName) => {
     let todoList = getLocalStorage();
     let projectToDisplay = todoList.getProjects().find(project => project.getName() == projectName);
+    console.log(projectToDisplay);
+    projectToDisplay.sortTasksByDate();
+    console.log(projectToDisplay);
     projectToDisplay.getTasks().forEach(task => renderTask(task));
 }
 
 const displayPriorityTasks = () => {
-    let todoList = getLocalStorage();
-    let taskToDisplay = todoList.getProjects().forEach(project => project.getTasks().forEach(task => {
+    let tasks = [];
+    getLocalStorage().getProjects().forEach(project => project.getTasks().forEach(task => {
         if (task.getPriority() === "on"){
+            tasks.push(task)
+        }
+    }))
+    sortTasksByDate(tasks);
+    tasks.forEach(task => renderTask(task));
+};
+
+const displayTodayTasks = () => {
+    getLocalStorage().getProjects().forEach(project => project.getTasks().forEach(task => {
+        if (isToday(new Date(task.getDueDate()))){
             renderTask(task);
         }
     }))
 };
+
+const displayWeekTasks = () => {
+    let tasks = [];
+    getLocalStorage().getProjects().forEach(project => project.getTasks().forEach(task => {
+        if (isThisWeek(new Date(task.getDueDate()), {weekStartsOn: 1})){
+            tasks.push(task);
+        }
+    }))
+    sortTasksByDate(tasks);
+    tasks.forEach(task => renderTask(task));
+}
 
 const getTaskByName = (name) => {
     let returnTask;
@@ -104,24 +130,43 @@ const deleteProjectFromStorage = (projectName) => {
     let todoList = getLocalStorage();
     todoList.deleteProject(projectName);
     setLocalStorage(todoList);
-    console.log(projectName)
-    console.log(todoList);
 }
 
 
 const getFormData = (id) => {
     const formData = new FormData(document.getElementById(id));
-    let title = formData.get("title");
-    let description = formData.get("description");
-    let date = formData.get("date");
-    let project = formData.get("project");
-    let priority = formData.get("priority");
+    let title = formData.get('title');
+    let description = formData.get('description');
+    let date = formData.get('date');
+    let project = formData.get('project');
+    let priority = formData.get('priority');
 
     return [title,description,date,project,priority];
 }
 
 const formValidation = (title) => (title.length < 2) ? false : true;
 
+const formatDate = (date) => {
+    if (isToday(new Date(date))){
+        return 'Today';
+    } else if (isTomorrow(new Date(date))){
+        return 'Tomorrow';
+    } else if (isYesterday(new Date(date))){
+        return 'Yesterday';
+    } else if (isPast(new Date(date))){
+        return `Due Date has passed`;
+    } else {
+        return format(new Date(date), 'dd/MM/yyyy');
+    }
+}
+
+const sortTasksByDate = (tasks) => {
+    tasks.sort((a,b) => {
+        return compareAsc(new Date(a.getDueDate()),new Date(b.getDueDate()));
+    })  
+    return tasks
+}
 
 
-export {createDefaultContent,displayContentInStorage,displayTasksInStorage,displayTasksOfProjects,displayPriorityTasks,createTask,createProject,getFormData,formValidation,getTaskByName,deleteTaskFromStorage,deleteProjectFromStorage} 
+
+export {createDefaultContent,displayContentInStorage,displayTasksInStorage,displayTasksOfProjects,displayPriorityTasks,createTask,createProject,getFormData,formValidation,getTaskByName,deleteTaskFromStorage,deleteProjectFromStorage,displayTodayTasks, displayWeekTasks, formatDate} 

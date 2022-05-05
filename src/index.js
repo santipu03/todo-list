@@ -1,9 +1,9 @@
-import { setDefaultEventListeners } from "./UI/EventListeners";
-import {createDefaultContent, displayContentInStorage} from "./logic";
+import { setDefaultEventListeners } from './UI/EventListeners';
+import {createDefaultContent, displayContentInStorage} from './logic';
 
 
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
     //localStorage.clear();
     createDefaultContent();
     displayContentInStorage();

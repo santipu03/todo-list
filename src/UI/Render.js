@@ -1,27 +1,30 @@
-import { displayPriorityTasks, displayTasksInStorage, displayTasksOfProjects, getTaskByName } from "../logic";
-import { setProjectTabListeners, setAddTaskBtnEventListener,setEditTaskListener } from "./EventListeners";
+import { displayPriorityTasks, displayTasksInStorage, displayTasksOfProjects, displayTodayTasks, getTaskByName, displayWeekTasks, formatDate } from '../logic';
+import { setProjectTabListeners, setAddTaskBtnEventListener,setEditTaskListener } from './EventListeners';
 
-let mainTitle = document.querySelector(".main-title");
-const taskContainer = document.querySelector(".task-container");
-const projectsContainer = document.querySelector(".projects-container");
+
+let mainTitle = document.querySelector('.main-title');
+const taskContainer = document.querySelector('.task-container');
+const projectsContainer = document.querySelector('.projects-container');
+
 
 
 const renderTask = (task) => {
-    let editId = task.name.split(" ").join("-");
-    let taskId = task.name.split(" ").join("/")
+    let editId = task.name.split(' ').join('-') + '-';
+    let taskId = task.name.split(' ').join('/')
     let priorityIcon;
-    (task.priority === "on") ? priorityIcon = "fa-solid fa-star" : priorityIcon = "fa-regular fa-star";
+    (task.priority === 'on') ? priorityIcon = 'fa-solid fa-star' : priorityIcon = 'fa-regular fa-star';
+    let date = formatDate(task.getDueDate());
     
-    let mainTask = document.createElement("div");
-    mainTask.classList.add("main-task");
-    mainTask.setAttribute("id",taskId);
+    let mainTask = document.createElement('div');
+    mainTask.classList.add('main-task');
+    mainTask.setAttribute('id',taskId);
     mainTask.innerHTML = 
     `<div>
         <input type="checkbox" name="check">
         <div class="task-name">${task.name}</div>
     </div>
     <div>
-        <div class="task-date">${task.dueDate}</div>
+        <div class="task-date">${date}</div>
         <i class="fa-solid fa-pen-to-square" id="${editId}"></i>
         <div class="priority"><i class="${priorityIcon}"></i></div>
     </div>`;
@@ -31,11 +34,11 @@ const renderTask = (task) => {
 }
 
 const renderProject = (project) => {
-    let tabProject = document.createElement("div");
-    let id = project.getName().split(" ").join("-");
+    let tabProject = document.createElement('div');
+    let id = project.getName().split(' ').join('-');
 
-    tabProject.classList.add("tab-project");
-    tabProject.setAttribute("id",id)
+    tabProject.classList.add('tab-project');
+    tabProject.setAttribute('id',id)
     tabProject.innerHTML = 
     `<i class="fa-solid fa-circle"></i>
     <div>${project.getName()}</div>
@@ -47,7 +50,7 @@ const renderProject = (project) => {
 
 
 const renderHomeTab = () => {
-    mainTitle.textContent = "Home";
+    mainTitle.textContent = 'Home';
     clearTaskContainer();
     displayTasksInStorage();
 }
@@ -60,31 +63,43 @@ const renderProjectTasks = (e) => {
 }
 
 const renderPriorityTab = () => {
-    mainTitle.textContent = "Priority";
+    mainTitle.textContent = 'Priority';
     clearTaskContainer();
     displayPriorityTasks();
 }
 
+const renderTodayTab = () => {
+    mainTitle.textContent = 'Today';
+    clearTaskContainer();
+    displayTodayTasks();
+}
+
+const renderWeekTab = () => {
+    mainTitle.textContent = 'This Week';
+    clearTaskContainer();
+    displayWeekTasks();
+}
+
 const renderEditTaskModal = (name) => {
     let task = getTaskByName(name);
-    document.querySelector(".taskInfo-modal-title").textContent = name;
+    document.querySelector('.taskInfo-modal-title').textContent = name;
 
-    openModal(".taskInfo-modal-overlay");
+    openModal('.taskInfo-modal-overlay');
     setTaskFormData(task);
 }
 
 const setTaskFormData = (task) => {
-    let title = document.getElementById("edit-task-input-title");
-    let inputDesc = document.getElementById("edit-task-input-desc");
-    let inputDate = document.getElementById("edit-task-input-date");
-    let inputProject = document.getElementById("edit-task-input-project");
-    let inputPriority = document.getElementById("edit-task-input-priority");
+    let title = document.getElementById('edit-task-input-title');
+    let inputDesc = document.getElementById('edit-task-input-desc');
+    let inputDate = document.getElementById('edit-task-input-date');
+    let inputProject = document.getElementById('edit-task-input-project');
+    let inputPriority = document.getElementById('edit-task-input-priority');
 
     title.textContent = task.getName();
     inputDesc.value = task.getDescription();
     inputDate.value = task.getDueDate();
     inputProject.value = task.getProject();
-    inputPriority.checked = (task.getPriority() === "on") ? true : false;
+    inputPriority.checked = (task.getPriority() === 'on') ? true : false;
 
 }
 
@@ -98,7 +113,7 @@ const clearTaskContainer = () => {
 }
 
 const removeTaskFromScreen = (name) => {
-    let id = name.split(" ").join("/");
+    let id = name.split(' ').join('/');
     document.getElementById(id).remove();
 };
 
@@ -111,18 +126,18 @@ const moveAddButton = () => {
 }
 
 const renderErrorMsg = (Class,msg) => document.querySelector(Class).textContent = msg;
-const clearErrorMsg = (Class) => document.querySelector(Class).textContent = "";
+const clearErrorMsg = (Class) => document.querySelector(Class).textContent = '';
 
-const openModal = Class => document.querySelector(Class).classList.add("show");
-const closeModal = Class => document.querySelector(Class).classList.remove("show");
+const openModal = Class => document.querySelector(Class).classList.add('show');
+const closeModal = Class => document.querySelector(Class).classList.remove('show');
 
 const clearForm = (id) => document.getElementById(id).reset();
 
 const updateModalSelectors = (value) => {
     // Check if the value to add is already added to avoid repetitions
 
-    const addTaskSelect = document.getElementById("add-task-select");
-    const editTaskSelect = document.getElementById("edit-task-input-project");
+    const addTaskSelect = document.getElementById('add-task-select');
+    const editTaskSelect = document.getElementById('edit-task-input-project');
     
     let children = Array.from(addTaskSelect.children);
     if (children.length === 0){
@@ -146,4 +161,4 @@ const updateModalSelectors = (value) => {
 }
 
 
-export {renderTask,renderProject,updateModalSelectors,renderHomeTab,renderPriorityTab,closeModal,openModal,clearErrorMsg,renderEditTaskModal,renderErrorMsg,clearForm,renderProjectTasks,removeTaskFromScreen,removeProjectFromScreen}
+export {renderTask,renderProject,updateModalSelectors,renderHomeTab,renderPriorityTab,closeModal,openModal,clearErrorMsg,renderEditTaskModal,renderErrorMsg,clearForm,renderProjectTasks,removeTaskFromScreen,removeProjectFromScreen,renderTodayTab,renderWeekTab}
