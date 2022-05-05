@@ -2,7 +2,7 @@ import Task from './Task';
 import Project from './Project';
 import { renderTask,renderProject,updateModalSelectors } from './UI/Render';
 import { getLocalStorage, setProjectInStorage, setTaskInStorage, setLocalStorage} from './Storage';
-import {isToday, isThisWeek, isTomorrow, format, isPast, isYesterday, compareAsc} from 'date-fns';
+import {isToday, isThisWeek, isTomorrow, format, isPast, isYesterday, compareAsc, startOfToday, startOfTomorrow, startOfYesterday} from 'date-fns';
 
 
 
@@ -28,9 +28,10 @@ const createDefaultContent = () => {
     createProject('DApp');
     createProject('Clean House');
 
-    createTask('Do the washing up','Use the appropiate dishwasher','2022-04-29','off','Clean House');
-    createTask('Debug the smart contract','','2022-05-01','on','DApp');
-    createTask('Vacuuming the basement','','2022-04-30','off','Clean House');
+    createTask('Do the washing up','Use the appropiate dishwasher',getTodayDate(),'off','Clean House');
+    createTask('Debug the smart contract','',getTomorrowDate(),'on','DApp');
+    createTask('Vacuuming the basement','',getYesterdayDate(),'off','Clean House');
+
 }
 
 const removeDefaultProjectFromScreen = () => document.querySelector('.projects-container').firstElementChild.remove();
@@ -62,9 +63,7 @@ const displayTasksInStorage = () => {
 const displayTasksOfProjects = (projectName) => {
     let todoList = getLocalStorage();
     let projectToDisplay = todoList.getProjects().find(project => project.getName() == projectName);
-    console.log(projectToDisplay);
     projectToDisplay.sortTasksByDate();
-    console.log(projectToDisplay);
     projectToDisplay.getTasks().forEach(task => renderTask(task));
 }
 
@@ -166,6 +165,10 @@ const sortTasksByDate = (tasks) => {
     })  
     return tasks
 }
+
+const getTodayDate = () => format(startOfToday(), 'yyyy-MM-dd');
+const getTomorrowDate = () => format(startOfTomorrow(), 'yyyy-MM-dd');
+const getYesterdayDate = () =>format(startOfYesterday(), 'yyyy-MM-dd');
 
 
 
