@@ -1,14 +1,10 @@
-import { setDefaultEventListeners } from './UI/EventListeners';
-import {createDefaultContent, displayContentInStorage} from './logic';
-
-
+import { setDefaultEventListeners } from './UI/EventListeners'
+import { createDefaultContent, displayContentInStorage } from './logic'
 
 window.addEventListener('DOMContentLoaded', () => {
-    //localStorage.clear()
-    createDefaultContent();
-    displayContentInStorage();
-    setDefaultEventListeners();
+  createDefaultContent()
+  displayContentInStorage()
+  setDefaultEventListeners()
 })
 
-
-// Border green when the task is done
+// mantener las checkboxes checked al cambiar de tabs
