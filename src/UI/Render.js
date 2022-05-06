@@ -11,7 +11,7 @@ import {
 import {
   setProjectTabListeners,
   setAddTaskBtnEventListener,
-  setEditTaskListener
+  setTaskListeners
 } from './EventListeners'
 
 const mainTitle = document.querySelector('.main-title')
@@ -45,7 +45,7 @@ const renderTask = (task) => {
     </div>`
   taskContainer.appendChild(mainTask)
   moveAddButton()
-  setEditTaskListener(editId)
+  setTaskListeners(editId)
 }
 
 const renderProject = (project) => {

@@ -1,143 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <script src="https://kit.fontawesome.com/1932318ea4.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
-    
-</head>
-<body>
-    
+    <script
+      src="https://kit.fontawesome.com/1932318ea4.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <header>
-        <img src="img/logo.png" alt="logo">
-        <div>ToDo List</div>
+      <img src="img/logo.png" alt="logo" />
+      <div>ToDo List</div>
     </header>
 
     <aside id="aside">
-        <div class="aside-home tab">
-            <i class="fa-solid fa-house"></i>
-            <div>Home</div>
-        </div>
-        <div class="aside-today tab">
-            
-            <i class="fa-solid fa-calendar-day"></i>
-            
-            <div>&nbsp;Today</div>
-        </div>
-        <div class="aside-week tab">
-            <i class="fa-solid fa-calendar-week"></i>
-            <div>&nbsp;This Week</div>
-        </div>
-        <div class="aside-priority tab">
-            <i class="fa-solid fa-star"></i>
-            <div>Priorities</div>
-        </div>
-        <div class="aside-projects tab">
-            <div class="add-project-btn"><i class="fa-regular fa-plus"></i></div>
-            <div>Projects</div>
-            <div class="projects-container">
+      <div class="aside-home tab">
+        <i class="fa-solid fa-house"></i>
+        <div>Home</div>
+      </div>
+      <div class="aside-today tab">
+        <i class="fa-solid fa-calendar-day"></i>
 
-            </div>
-        </div>
+        <div>&nbsp;Today</div>
+      </div>
+      <div class="aside-week tab">
+        <i class="fa-solid fa-calendar-week"></i>
+        <div>&nbsp;This Week</div>
+      </div>
+      <div class="aside-priority tab">
+        <i class="fa-solid fa-star"></i>
+        <div>Priorities</div>
+      </div>
+      <div class="aside-projects tab">
+        <div class="add-project-btn"><i class="fa-regular fa-plus"></i></div>
+        <div>Projects</div>
+        <div class="projects-container"></div>
+      </div>
     </aside>
 
     <main id="main">
-        <div class="main-title">Home</div>
-        <div class="task-container">
-            
-            <div class="add-task">
-                <i class="fa-solid fa-plus"></i>
-                <div>Add Task</div>
+      <div class="main-title">Home</div>
+      <div class="task-container">
+        <div class="add-task">
+          <i class="fa-solid fa-plus"></i>
+          <div>Add Task</div>
+        </div>
+      </div>
+
+      <div class="addTask-modal-overlay">
+        <form action="" method="post" autocomplete="off" id="addTask-form">
+          <i class="fa-solid fa-xmark task-modal-close-btn"></i>
+          <div class="addTask-modal-title">New Task</div>
+
+          <div class="modal-grid-container">
+            <div class="addTask-modal-input-title wrapper">
+              <label for="title">Title:</label>
+              <input
+                type="text"
+                placeholder="e.g. 'Walk 30 minutes'"
+                required
+                minlength="2"
+                maxlength="100"
+                name="title"
+              />
             </div>
-        </div>
+            <div class="addTask-modal-input-desc wrapper">
+              <label for="description">Description:</label>
+              <textarea
+                name="description"
+                cols="30"
+                rows="10"
+                placeholder="e.g. 'Remember to pick the new shoes'"
+              ></textarea>
+            </div>
+            <div class="addTask-modal-input-date wrapper">
+              <label for="date">Due-date:</label>
+              <input type="date" required name="date" />
+            </div>
+            <div class="addTask-modal-input-project wrapper">
+              <label for="project">Project:</label>
+              <select name="project" id="add-task-select">
+                <!-- <option value="default">No Project</option> -->
+              </select>
+            </div>
+            <div class="addTask-modal-input-priority">
+              <input type="checkbox" class="priority-check" name="priority" />
+              <label for="priority">Priority:</label>
+            </div>
+            <div class="addTask-error-msg"></div>
+          </div>
+          <button class="addTask-modal-btn" type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="addProject-modal-overlay">
+        <form action="" method="post" autocomplete="off" id="addProject-form">
+          <i class="fa-solid fa-xmark project-modal-close-btn"></i>
+          <div class="create-project-title">New Project</div>
+          <div class="wrapper">
+            <label for="project-name">New Project Name:</label>
+            <input
+              type="text"
+              name="project-name"
+              required
+              placeholder="e.g. Household Chores"
+              maxlength="40"
+              id="project-name"
+            />
+            <div class="project-error-msg"></div>
+          </div>
+          <button class="project-modal-submit" type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="taskInfo-modal-overlay">
+        <form action="" method="post" autocomplete="off" id="taskInfo-form">
+          <i class="fa-solid fa-xmark editTask-modal-close"></i>
+          <div class="taskInfo-modal-title">Your Task</div>
 
-        <div class="addTask-modal-overlay">
-            <form action="" method="post" autocomplete="off" id="addTask-form">
-                <i class="fa-solid fa-xmark task-modal-close-btn"></i>
-                <div class="addTask-modal-title">New Task</div>
-
-                <div class="modal-grid-container">
-                    <div class="addTask-modal-input-title wrapper">
-                        <label for="title">Title:</label>
-                        <input type="text" placeholder="e.g. 'Walk 30 minutes'" required minlength="2" maxlength="100" name="title">
-                    </div>
-                    <div class="addTask-modal-input-desc wrapper">
-                        <label for="description">Description:</label>
-                        <textarea name="description" cols="30" rows="10" placeholder="e.g. 'Remember to pick the new shoes'"></textarea>
-                    </div>
-                    <div class="addTask-modal-input-date wrapper">
-                        <label for="date">Due-date:</label>
-                        <input type="date"  required name="date">
-                    </div>
-                    <div class="addTask-modal-input-project wrapper">
-                        <label for="project">Project:</label>
-                        <select name="project" id="add-task-select">
-                            <!-- <option value="default">No Project</option> -->
-                        </select>
-                    </div>
-                    <div class="addTask-modal-input-priority">
-                        <input type="checkbox" class="priority-check" name="priority">
-                        <label for="priority">Priority:</label>
-                    </div>
-                    <div class="addTask-error-msg"></div>
-                </div>
-                <button class="addTask-modal-btn" type="submit">Submit</button>
-            </form>
-        </div>
-        <div class="addProject-modal-overlay">
-            <form action="" method="post" autocomplete="off" id="addProject-form">
-                <i class="fa-solid fa-xmark project-modal-close-btn"></i>
-                <div class="create-project-title">New Project</div>
-                <div class="wrapper">
-                    <label for="project-name">New Project Name:</label>
-                    <input type="text" name="project-name" required placeholder="e.g. Household Chores" maxlength="40" id="project-name">
-                    <div class="project-error-msg"></div>
-                </div>
-                <button class="project-modal-submit" type="submit">Submit</button>
-            </form>
-        </div>
-        <div class="taskInfo-modal-overlay">
-            <form action="" method="post" autocomplete="off" id="taskInfo-form">
-                <i class="fa-solid fa-xmark editTask-modal-close"></i>
-                <div class="taskInfo-modal-title">Your Task</div>
-
-                <div class="modal-grid-container">
-                    <div class="editTask-modal-input-title wrapper">
-                        <label for="title">Title:</label>
-                        <div id="edit-task-input-title"></div>
-                        <!-- <input type="text" name="title" id="edit-task-input-title"> -->
-                    </div>
-                    <div class="editTask-modal-input-desc wrapper">
-                        <label for="description">Description:</label>
-                        <textarea name="description" cols="30" rows="10" id="edit-task-input-desc"></textarea>
-                    </div>
-                    <div class="editTask-modal-input-date wrapper">
-                        <label for="date">Due-date:</label>
-                        <input type="date" required name="date" id="edit-task-input-date">
-                    </div>
-                    <div class="editTask-modal-input-project wrapper">
-                        <label for="project">Project:</label>
-                        <select name="project" id="edit-task-input-project">
-                        </select>
-                    </div>
-                    <div class="editTask-modal-input-priority">
-                        <input type="checkbox" class="priority-check" name="priority" id="edit-task-input-priority">
-                        <label for="priority">Priority:</label>
-                    </div>
-                    <div class="editTask-error-msg"></div>
-                </div>
-                <button class="editTask-modal-btn" type="submit">Submit</button>
-                <button class="delete-task" type="submit">Delete</button>
-            </form>
-        </div>
+          <div class="modal-grid-container">
+            <div class="editTask-modal-input-title wrapper">
+              <label for="title">Title:</label>
+              <div id="edit-task-input-title"></div>
+              <!-- <input type="text" name="title" id="edit-task-input-title"> -->
+            </div>
+            <div class="editTask-modal-input-desc wrapper">
+              <label for="description">Description:</label>
+              <textarea
+                name="description"
+                cols="30"
+                rows="10"
+                id="edit-task-input-desc"
+              ></textarea>
+            </div>
+            <div class="editTask-modal-input-date wrapper">
+              <label for="date">Due-date:</label>
+              <input
+                type="date"
+                required
+                name="date"
+                id="edit-task-input-date"
+              />
+            </div>
+            <div class="editTask-modal-input-project wrapper">
+              <label for="project">Project:</label>
+              <select name="project" id="edit-task-input-project"></select>
+            </div>
+            <div class="editTask-modal-input-priority">
+              <input
+                type="checkbox"
+                class="priority-check"
+                name="priority"
+                id="edit-task-input-priority"
+              />
+              <label for="priority">Priority:</label>
+            </div>
+            <div class="editTask-error-msg"></div>
+          </div>
+          <button class="editTask-modal-btn" type="submit">Submit</button>
+          <button class="delete-task" type="submit">Delete</button>
+        </form>
+      </div>
     </main>
 
     <footer>Made in BCN by santipu_</footer>
 
-
     <script src="main.js"></script>
-</body>
+  </body>
 </html>

@@ -200,11 +200,20 @@ const setProjectTabListeners = (id) => {
   })
 }
 
-const setEditTaskListener = (id) => {
-  document.getElementById(id).addEventListener('click', (e) => {
+const setTaskListeners = (id) => {
+  const editButton = document.getElementById(id)
+  const doneInput = document.getElementById(id).parentElement.parentElement.firstElementChild.firstElementChild
+
+  editButton.addEventListener('click', (e) => {
     const title =
       e.target.parentElement.parentElement.firstChild.children[1].textContent
     renderEditTaskModal(title)
+  })
+
+  doneInput.addEventListener('click', (e) => {
+    const title = e.target.nextElementSibling.textContent
+    deleteTaskFromStorage(title)
+    removeTaskFromScreen(title)
   })
 }
 
@@ -212,5 +221,5 @@ export {
   setDefaultEventListeners,
   setAddTaskBtnEventListener,
   setProjectTabListeners,
-  setEditTaskListener
+  setTaskListeners
 }
