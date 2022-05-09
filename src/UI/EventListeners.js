@@ -22,7 +22,7 @@ import {
   deleteTaskFromStorage,
   createTask,
   deleteProjectFromStorage
-} from '../logic'
+} from '../Logic'
 
 const setDefaultEventListeners = () => {
   document.querySelector('.aside-home').addEventListener('click', renderHomeTab)
@@ -202,7 +202,9 @@ const setProjectTabListeners = (id) => {
 
 const setTaskListeners = (id) => {
   const editButton = document.getElementById(id)
-  const doneInput = document.getElementById(id).parentElement.parentElement.firstElementChild.firstElementChild
+  const doneInput =
+    document.getElementById(id).parentElement.parentElement.firstElementChild
+      .firstElementChild
 
   editButton.addEventListener('click', (e) => {
     const title =

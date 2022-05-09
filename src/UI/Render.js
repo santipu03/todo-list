@@ -6,7 +6,7 @@ import {
   getTaskByName,
   displayWeekTasks,
   formatDate
-} from '../logic'
+} from '../Logic'
 
 import {
   setProjectTabListeners,
