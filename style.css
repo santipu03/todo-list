@@ -1,5 +1,5 @@
 /* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 /* Variables */
 :root {
@@ -30,7 +30,7 @@
 
 body {
   min-height: 100vh;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: 80px 1fr 40px;
@@ -168,7 +168,7 @@ main {
   gap: 20px;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   cursor: pointer;
   height: 20px;
   width: 20px;
